@@ -39,7 +39,8 @@ def main():
     sample_columns = [col for col in fileData.columns if re.search(r'\d', col)]
 
     # Group and aggregate
-    binMethod = "mean"
+    # binMethod = "mean"
+    binMethod = "std"
     # binMethod = "median"
     # binMethod = "sum"
     agg_dict = {"GravyScore": "count"}  # Start with count (we'll rename this later)
