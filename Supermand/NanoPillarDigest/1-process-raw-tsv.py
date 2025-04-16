@@ -72,6 +72,7 @@ def prepare_raw_gravy_file():
         for row in zip(*data.values()):
             writer.writerow(row)
 
+    print("Written output file: \n" + output_file)
     return output_file
 
 

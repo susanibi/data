@@ -46,6 +46,7 @@ def merge_files():
 
     merged_table.to_csv(output_file, index=False)
 
+    print("Result written to: \n" + output_file)
     return output_file
 
 
