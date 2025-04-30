@@ -1,3 +1,5 @@
+#create a mean over replicates to get sample level for each peptide.
+
 import os
 from tkinter import Tk
 from tkinter.filedialog import askopenfilename

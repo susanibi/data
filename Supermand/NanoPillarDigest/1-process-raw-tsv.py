@@ -1,10 +1,12 @@
+#choose raw files to create a csv files with sorted replcialevle data and gravyscores
+
 import csv
 from tkinter.filedialog import askopenfilename
 import pandas as pd
 import numpy as np
 import os
 from tkinter import Tk
-from Functions.GravyHelper import GravyHelper
+from GravyHelper import GravyHelper
 
 
 def main():

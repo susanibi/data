@@ -39,8 +39,8 @@ def extract_time_from_filename(filename):
 # 🎯 Detect & measure spots
 def detect_large_spots(image_path, save_roi=True):
     image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
-    blurred = cv2.GaussianBlur(image, (3, 3), 0)
-    _, binary = cv2.threshold(blurred, 65, 255, cv2.THRESH_BINARY_INV)
+    blurred = cv2.GaussianBlur(image, (5, 5), 0)
+    _, binary = cv2.threshold(blurred, 50, 255, cv2.THRESH_BINARY_INV)
 
     contours, _ = cv2.findContours(binary, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     min_area, max_area = 2000, 50000
@@ -62,7 +62,7 @@ def detect_large_spots(image_path, save_roi=True):
     # Save image with contours
     if save_roi:
         image_with_contours = cv2.cvtColor(image, cv2.COLOR_GRAY2BGR)
-        cv2.drawContours(image_with_contours, large_spots, -1, (0, 255, 0), 2)
+        cv2.drawContours(image_with_contours, large_spots, -1, (0, 255, 0), 1)
         cv2.imwrite(os.path.join(roi_folder, os.path.basename(image_path)), image_with_contours)
 
     return spot_data
@@ -116,7 +116,7 @@ elapsed_time_series = pd.Series(elapsed_time_labels, index=time_labels)
 # 🎯 Volume Calculation (Fix for Data Type Issue)
 area_numeric = area_df.apply(pd.to_numeric, errors="coerce")  # Convert to numeric
 # Updated volume estimation using V = V0 * (A / A0)^(3/2)
-A0 = 4079.0  # Reference area in pixels² for 50 nL droplet
+A0 = 5600.0  # Reference area in pixels² for 50 nL droplet
 V0 = 50.0    # Reference volume in nanoliters
 
 volume_data = ((area_numeric / A0) ** 1.5) * V0  # Area-only model

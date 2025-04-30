@@ -1,3 +1,5 @@
+#combining samples into gravyscore-bins - ACtivate the needed outdata; optios: stdec, mean, median
+
 import os
 from tkinter import Tk
 from tkinter.filedialog import askopenfilename
@@ -39,9 +41,9 @@ def main():
     sample_columns = [col for col in fileData.columns if re.search(r'\d', col)]
 
     # Group and aggregate
-    # binMethod = "mean"
-    binMethod = "std"
-    # binMethod = "median"
+    #binMethod = "mean"
+    #binMethod = "std"
+    binMethod = "median"
     # binMethod = "sum"
     agg_dict = {"GravyScore": "count"}  # Start with count (we'll rename this later)
     for col in sample_columns:

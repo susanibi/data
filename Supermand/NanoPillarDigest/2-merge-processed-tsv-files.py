@@ -1,3 +1,6 @@
+#merges the two csv created by the process-raw. here all0 value are converted to null/Nan
+
+
 import pandas as pd
 import os
 from tkinter import Tk, filedialog
@@ -37,7 +40,12 @@ def merge_files():
     merged_table = pd.DataFrame(merged_data.values())
 
     # Optional: fill missing sample columns with 0.0 (if needed)
-    merged_table = merged_table.fillna(0.0)
+    #merged_table = merged_table.fillna(0.0)
+
+    # Replace any 0.0 values in numeric/sample columns with NaN
+    for col in merged_table.columns:
+        if any(char.isdigit() for char in col):  # likely a sample column
+            merged_table[col] = merged_table[col].replace(0.0, pd.NA)
 
     # Print data to file
     selected_dir = os.path.dirname(pr_file)
