@@ -1,5 +1,3 @@
-#choose raw files to create a csv files with sorted replcialevle data and gravyscores
-
 import csv
 from tkinter.filedialog import askopenfilename
 import pandas as pd
@@ -56,6 +54,12 @@ def prepare_raw_gravy_file():
             new_key = sample_map[key]
             data[new_key] = value.fillna(0)
 
+            # Apply scaling based on prefix
+            if new_key.startswith("F"):
+                data[new_key] *= 1.4091
+            elif new_key.startswith("R"):
+                data[new_key] *= 1.0750
+
     # Sort by gravy score
     sorter = sorted(range(len(data["GravyScore"])), key=lambda i: data["GravyScore"][i])
     for col, colvalues in data.items():
@@ -88,7 +92,8 @@ def extract_clean_sample_name(col_path):
         )
         with open(sampleNamesMapFile, "r") as file:
             for line in file:
-                path, label = line.strip().split("\t")
+                # path, label = line.strip().split("\t")
+                path, label = line.strip().split(";")
                 sampleNames[path] = label  # store in a dictionary
         extract_clean_sample_name.sampleNames = sampleNames
 

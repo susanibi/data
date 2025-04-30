@@ -11,6 +11,7 @@ import re
 # ==== USER CONFIG ====
 use_log2 = False  # 🔥 true= log2(x+1), false =raw
 # =====================
+fontsize = 24
 
 # Step 1: Pick the GravyScore file
 root = tk.Tk()
@@ -79,13 +80,40 @@ cax = ax.imshow(heatmap_data.values, cmap='viridis', aspect='auto', interpolatio
 ax.set_xticks(np.arange(len(heatmap_data.columns)))
 ax.set_yticks(np.arange(len(heatmap_data.index)))
 
-ax.set_xticklabels([f"{interval.left:.2f}" for interval in heatmap_data.columns], rotation=45, fontsize=12)
-ax.set_yticklabels(heatmap_data.index)
+ax.set_xticklabels([f"{interval.left:.2f}" for interval in heatmap_data.columns], rotation=45, fontsize=fontsize)
+ax.set_yticklabels(heatmap_data.index, fontsize=fontsize)
 
-fig.colorbar(cax, ax=ax)
-ax.set_title(plot_label, fontsize=14)
-ax.set_xlabel('GravyScore Bin (lower bound)', fontsize=14)
-ax.set_ylabel('')
+# Create colorbar with font size control
+cbar = fig.colorbar(cax, ax=ax)
+cbar.ax.tick_params(labelsize=fontsize)  # Set colorbar tick label font size
+cbar.set_label('Value', fontsize=fontsize)  # Optional: Add a label to the colorbar
+
+ax.set_title(plot_label, fontsize=fontsize+2)  # Title slightly larger
+ax.set_xlabel('GravyScore Bin (lower bound)', fontsize=fontsize)
+ax.set_ylabel('', fontsize=fontsize)
+
+# Set tick parameters for better control (optional)
+ax.tick_params(axis='both', which='major', labelsize=fontsize)
 
 plt.tight_layout()
 plt.show()
+
+# fig, ax = plt.subplots(figsize=(16, 12))
+# cax = ax.imshow(heatmap_data.values, cmap='viridis', aspect='auto', interpolation='nearest')
+#
+# ax.set_xticks(np.arange(len(heatmap_data.columns)))
+# ax.set_yticks(np.arange(len(heatmap_data.index)))
+#
+# ax.set_xticklabels([f"{interval.left:.2f}" for interval in heatmap_data.columns], rotation=45, fontsize=fontsize)
+# ax.set_yticklabels(heatmap_data.index, fontsize=fontsize)
+#
+# fig.colorbar(cax, ax=ax)
+# ax.set_title(plot_label, fontsize=fontsize+2)
+# ax.set_xlabel('GravyScore Bin (lower bound)', fontsize=fontsize)
+# ax.set_ylabel('', fontsize=fontsize)
+#
+# # Set tick parameters for better control (optional)
+# ax.tick_params(axis='both', which='major', labelsize=fontsize)
+#
+# plt.tight_layout()
+# plt.show()

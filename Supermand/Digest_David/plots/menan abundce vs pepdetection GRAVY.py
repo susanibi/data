@@ -11,14 +11,26 @@ def group_replicates(df, suffixes):
     grouped_df.insert(0, 'GRAVY_bin', df['GRAVY_bin'])
     return grouped_df
 
-def plot_mean_abundance(mean_abundance_df_grouped):
+def plot_mean_abundance(mean_abundance_df_grouped, fontsize = 17):
+    # Set the global font size (affects most text elements)
+    plt.rcParams.update({'font.size': fontsize})
+
     plt.figure(figsize=(12, 6))
     for column in mean_abundance_df_grouped.columns[1:]:
         plt.plot(mean_abundance_df_grouped['GRAVY_bin'], mean_abundance_df_grouped[column], label=column)
-    plt.title('Mean Abundance Per GRAVY Bin (Grouped)')
-    plt.xlabel('GRAVY Bin')
-    plt.ylabel('Mean Abundance')
-    plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.15), ncol=5)
+
+    # Set font sizes for specific elements
+    plt.title('Mean Abundance Per GRAVY Bin (Grouped)', fontsize=fontsize + 2)
+    plt.xlabel('GRAVY Bin', fontsize=fontsize)
+    plt.ylabel('Mean Abundance', fontsize=fontsize)
+
+    # Adjust legend font size
+    plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.15), ncol=5, fontsize=fontsize - 2)
+
+    # Adjust tick label sizes
+    plt.xticks(fontsize=fontsize - 2)
+    plt.yticks(fontsize=fontsize - 2)
+
     plt.grid(True)
     plt.savefig('mean_abundance_per_gravy_bin_grouped.png')
     plt.show()

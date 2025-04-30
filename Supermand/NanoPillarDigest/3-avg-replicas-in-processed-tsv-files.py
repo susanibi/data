@@ -1,5 +1,3 @@
-#create a mean over replicates to get sample level for each peptide.
-
 import os
 from tkinter import Tk
 from tkinter.filedialog import askopenfilename
@@ -34,7 +32,18 @@ def main():
 
     # Average across replicas
     for sample_name, replicas in sample_groups.items():
-        fileData[sample_name] = fileData[replicas].mean(axis=1).round(2)
+        # fileData[sample_name] = fileData[replicas].mean(axis=1).round(2)
+        # Create a sub-DataFrame of replicas
+        replica_values = fileData[replicas]
+
+        # Count how many values are non-zero per row
+        non_zero_counts = (replica_values != 0).sum(axis=1)
+
+        # Compute mean across rows
+        mean_values = replica_values.mean(axis=1).round(2)
+
+        # Set mean only if at least 3 non-zero values, else NaN
+        fileData[sample_name] = np.where(non_zero_counts >= 3, mean_values, np.nan)
 
     # Drop the individual replica columns
     fileData.drop(columns=sample_cols, inplace=True)
